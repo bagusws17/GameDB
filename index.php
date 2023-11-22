@@ -16,7 +16,7 @@ session_start();
         <nav>
             <div class="logo">
                 <img src="img/game-data.png" alt="logo">
-                <h1>Game Database</h1>
+                <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
             </div>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -24,17 +24,28 @@ session_start();
                 <li><a href="#">User</a></li>
                 <li><a href="#">Stats</a></li>
                 <li><a href="#">News</a></li>
-                <li><a href="#">Login</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="logout.php">Log Out</a></li>
             </ul>
         </nav>
         <main>
-            <div style="width: 100%; height: 100%; color: #A2FACF; font-size: 36px; line-height: 39.60px; word-wrap: break-word">Database of Game.</div>
-            <h1>Welcome to GameDB</h1>
-            <p>GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
-            <p>Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
+            <section id="hero">
+                <div class="hero-content">
+                    <img src="img/armored.png" id="bg-hero">
+                    <span class="span-hero">WELCOME <span class="blue-underline">GAMER<br></span>to GameDB</span>
+                </div>
+            </section>
         </main>
     </div>
     <div class="container-content">
+            <div class="title">
+                <div class="subtitle">
+                    Database of Game.
+                </div>
+                <h1 class="white-text">Welcome to GameDB</h1>
+                <p class="white-text">GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
+                <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
+            </div>
         <div class="search-container">
             <input type="text" id="search" class="search-input" placeholder="Search...">
         </div>

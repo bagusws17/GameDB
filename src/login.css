@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Poppins:wght@300;400;500&display=swap');
+
+
+*, html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #181c24;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    align-items: center;
+    width: 65vw;
+    height: 70vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "leftcon login";
+    box-shadow: 0 0 17px 10px rgb(0 0 0 / 30%);
+    border-radius: 20px;
+    background: black;
+    overflow: hidden;
+}
+
+.leftcon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: black;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.leftcon#database{
+    color: #3498db;
+}
+
+.login {
+    grid-area: login;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    background: black;
+    width   : 25vw;
+}
+
+.title{
+    color: white;
+    font-family: 'Poppins', sans-serif;
+     font-weight: 500;
+}
+
+.subtitle{
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+
+#password-container{
+    position: relative;
+    border-bottom: 1px solid white;
+}
+
+#password-container input[type="password"],
+#password-container input[type="text"]{
+    box-sizing: border-box;
+}
+
+.text-input {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: black;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+
+.fa-eye {
+    position: absolute;
+    top: 70%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: white;
+    cursor: pointer;
+}
+
+
+.text-input input {
+    margin-top: 3px;
+    color: white;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    margin-left: 0px;
+}
+
+
+.text-input i {
+    color: white;
+}
+
+::placeholder {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    color: white;
+    opacity: 0.5;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 17px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    background: #3498db;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+a {
+    color: #3498db;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+}
+
+a.forgot {
+    margin-top: 15px;
+}
+
+.create {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 30px;
+}
+
+.create i {
+    color: #9a9a9a;
+    margin-left: 10px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        grid-template-columns: 50% 50%;
+        grid-template-areas: "leftcon login";
+    }
+
+    .design {
+        display: block;
+    }
+}
