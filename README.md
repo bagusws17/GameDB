@@ -7,3 +7,5 @@
 - HTML
 - CSS
 - PHP
+- JavaScript
+- Chart.Js
