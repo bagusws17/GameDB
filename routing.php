@@ -12,7 +12,7 @@ if($_SESSION['role']=='admin'){
 }
 
 if($_SESSION['role']=='user'){
-    header("Location: index.php");
+    header("Location: user/indexUser.php");
 }
 
 ?>

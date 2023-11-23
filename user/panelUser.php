@@ -2,6 +2,11 @@
 include "../connection.php";
 session_start();
 
+if (!isset($_SESSION['id'])) {
+    header("Location: ../login.php"); // Redirect to login.php
+    exit();
+}
+
 $del=$_GET['del'];
 if($del!=""){
     $sql = "delete from app_detail where id_app='$del'";
@@ -25,17 +30,19 @@ function price($price){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameDB</title>
-    <link rel="stylesheet" href="../src/panel.css">
+    <link rel="stylesheet" href="../src/admin.css">
 </head>
 <body>
     <div class="container-hero">
         <nav>
             <div class="logo">
                 <img src="../img/game-data.png" alt="logo">
-                <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
+                <h1>Game DB</h1>
             </div>
             <ul>
+                <li><a href="indexUser.php">Home</a></li>
                 <li><a href="#">Games</a></li>
+                <li><a href="panelUser.php">User</a></li>
                 <li><a href="#">Stats</a></li>
                 <li><a href="#">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
@@ -47,7 +54,7 @@ function price($price){
                 <div class="subtitle">
                     Database of Game.
                 </div>
-                <h1 class="white-text">Welcome to GameDB, Admin</h1>
+                <h1 class="white-text">Welcome to GameDB</h1>
                 <p class="white-text">GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
                 <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
             </div>
@@ -67,25 +74,30 @@ function price($price){
             </thead>
             <tbody>
                 <?php
-                    $sql = "SELECT * FROM app_detail";
+                    $userId = $_SESSION['id'];
+
+                    // SQL query to retrieve user's favorite apps
+                    $sql = "SELECT ad.app_name, ad.genre, ad.rating, ad.installs, ad.price
+                            FROM app_detail ad
+                            JOIN user_favorite uf ON ad.id_app = uf.id_app
+                            WHERE uf.id_user = $userId";
+
                     $result = $conn->query($sql);
 
-                    // Menampilkan data ke dalam tabel
+                    // Display the favorite apps in the table
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
                             echo "<td>" . $row['rating'] . "</td>";
-                            echo "<td>" . $row['installs'] . "+" . "</td>";
+                            echo "<td>" . $row['installs'] . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
-                            echo "<td> <a href='update.php?id=$row[id_app]'>Edit</a>
-                            <a href='panel.php?id=$row[id_app]'>Delete</a></td>
-                            </tr>"
-                            ;
+                            echo "<td><button>Unfavorite</button></td>";
+                            echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='5'>No data available</td></tr>";
+                        echo "<tr><td colspan='5'>No favorite apps added yet.</td></tr>";
                     }
                 ?>
             </tbody>
