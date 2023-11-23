@@ -7,20 +7,14 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$del=$_GET['del'];
-if($del!=""){
-    $sql = "delete from app_detail where id_app='$del'";
-    $query = mysqli_query($conn, $sql);
-    if($query){
-    ?>
-    <script>alert('Data Deleted Succesfully');document.location='panel.php';</script>
-    <?php
-    }
-}
-
 function price($price){
     $formattedprice = "Rp " . number_format($price, 2, ',', '.');
     return $formattedprice;
+}
+
+if (isset($_SESSION['delete_success'])) {
+    echo "<script>alert('Record deleted successfully');</script>";
+    unset($_SESSION['delete_success']);
 }
 ?>
 
@@ -77,7 +71,7 @@ function price($price){
                     $userId = $_SESSION['id'];
 
                     // SQL query to retrieve user's favorite apps
-                    $sql = "SELECT ad.app_name, ad.genre, ad.rating, ad.installs, ad.price
+                    $sql = "SELECT ad.id_app, ad.app_name, ad.genre, ad.rating, ad.installs, ad.price
                             FROM app_detail ad
                             JOIN user_favorite uf ON ad.id_app = uf.id_app
                             WHERE uf.id_user = $userId";
@@ -93,12 +87,13 @@ function price($price){
                             echo "<td>" . $row['rating'] . "</td>";
                             echo "<td>" . $row['installs'] . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
-                            echo "<td><button>Unfavorite</button></td>";
+                            echo "<td><a href='deleteFavorite.php?id_app=" . $row['id_app'] . "'>Unfavorite</a></td>";
                             echo "</tr>";
                         }
                     } else {
                         echo "<tr><td colspan='5'>No favorite apps added yet.</td></tr>";
                     }
+
                 ?>
             </tbody>
         </table>

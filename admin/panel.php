@@ -2,6 +2,11 @@
 include "../connection.php";
 session_start();
 
+if (!isset($_SESSION['id'])) {
+    header("Location: ../login.php"); // Redirect to login.php
+    exit();
+}
+
 $del=$_GET['del'];
 if($del!=""){
     $sql = "delete from app_detail where id_app='$del'";

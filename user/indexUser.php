@@ -11,6 +11,16 @@ function price($price){
     $formattedprice = "Rp " . number_format($price, 2, ',', '.');
     return $formattedprice;
 }
+
+if (isset($_SESSION['favorite_success'])) {
+    echo "<script>alert('Favorited Successfully!');</script>";
+    unset($_SESSION['favorite_success']);
+}
+
+if (isset($_SESSION['favorite_exist'])) {
+    echo "<script>alert('Already In Favorite!');</script>";
+    unset($_SESSION['favorite_exist']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +29,7 @@ function price($price){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameDB</title>
-    <link rel="stylesheet" href="../src/admin.css">
+    <link rel="stylesheet" href="../src/style.css">
 </head>
 <body>
     <div class="container-hero">
@@ -40,8 +50,20 @@ function price($price){
         <main>
             <section id="hero">
                 <div class="hero-content">
-                    <img src="img/armored.png" id="bg-hero">
-                    <span class="span-hero">WELCOME <span class="blue-underline">GAMER<br></span>to GameDB</span>
+                    <img src="../img/armored.png" id="bg-hero">
+                    <?php
+                        $sessionID = $_SESSION['id'];
+
+                        $namaUser = "SELECT nama_user FROM user WHERE id_user = '$sessionID'";
+                        $resultUser = $conn->query($namaUser);
+                        if ($resultUser->num_rows > 0) {
+                            while ($row = $resultUser->fetch_assoc()) {
+                                $nama = $row["nama_user"];
+                            }
+                        }
+
+                    ?>
+                    <span class="span-hero">WELCOME, <span class="blue-underline"><?php echo $nama ?><br></span>to GameDB</span>
                 </div>
             </section>
         </main>
@@ -83,7 +105,7 @@ function price($price){
                             echo "<td>" . $row['rating'] . "</td>";
                             echo "<td>" . $row['installs'] . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
-                            echo "<td><button onclick=\"addToFavorites(" . $row['id_app'] . ")\">Add to Favorites</button></td>";
+                            echo "<td><a href='addToFavorites.php?id_app=" . $row['id_app'] . "'>Add to Favorites</a></td>";
                             echo "</tr>";
                         }
                     } else {
@@ -96,24 +118,5 @@ function price($price){
     <footer>
         <p>&copy; 2023 GameDB</p>
     </footer>
-    <script>
-        function addToFavorites(id_app) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "addToFavorites.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                if (this.responseText === "exists") {
-                    alert("Already in your favorites!");
-                } else if (this.responseText === "added") {
-                    alert("Added to favorites!");
-                } else {
-                    alert("An error occurred. Please try again.");
-                }
-            }
-        };
-        xhr.send("id_app=" + id_app);
-    }
-</script>
 </body>
 </html>
