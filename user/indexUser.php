@@ -34,7 +34,6 @@ function price($price){
                 <li><a href="panelUser.php">User</a></li>
                 <li><a href="#">Stats</a></li>
                 <li><a href="#">News</a></li>
-                <li><a href="login.php">Login</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
             </ul>
         </nav>

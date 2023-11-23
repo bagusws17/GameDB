@@ -16,7 +16,7 @@ session_start();
         <nav>
             <div class="logo">
                 <img src="img/game-data.png" alt="logo">
-                <h1>Game DB</h1>
+                <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
             </div>
             <ul>
                 <li><a href="#">Home</a></li>

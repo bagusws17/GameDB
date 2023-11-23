@@ -133,6 +133,10 @@ main {
     color: #A2FACF; /* Set color for the subtitle */
 }
 
+.blue-text {
+    color: #3498db; /* Set color for the blue text */
+}
+
 .white-text {
     color: #fff; /* Set color for the white text */
 }

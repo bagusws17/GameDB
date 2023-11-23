@@ -46,7 +46,7 @@ if($hasil['id_app']!=""){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update GameDB Record</title>
-    <link rel="stylesheet" href="../src/admin.css">
+    <link rel="stylesheet" href="../src/panel.css">
 </head>
 <body>
 <div class="container-hero">

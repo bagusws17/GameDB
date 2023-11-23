@@ -30,19 +30,17 @@ function price($price){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameDB</title>
-    <link rel="stylesheet" href="../src/admin.css">
+    <link rel="stylesheet" href="../src/panel.css">
 </head>
 <body>
     <div class="container-hero">
         <nav>
             <div class="logo">
                 <img src="../img/game-data.png" alt="logo">
-                <h1>Game DB</h1>
+                <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
             </div>
             <ul>
-                <li><a href="#">Home</a></li>
                 <li><a href="#">Games</a></li>
-                <li><a href="#">User</a></li>
                 <li><a href="#">Stats</a></li>
                 <li><a href="#">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
@@ -54,7 +52,7 @@ function price($price){
                 <div class="subtitle">
                     Database of Game.
                 </div>
-                <h1 class="white-text">Welcome to GameDB</h1>
+                <h1 class="white-text">Welcome to GameDB, Admin</h1>
                 <p class="white-text">GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
                 <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
             </div>
