@@ -8,7 +8,7 @@
     }
 
     $id_user = $_SESSION['id'];
-    $id_app = $_POST['id_app'];
+    $id_app = $_GET['id_app'];
     $date_added = date("Y-m-d");
 
     $sql_check = "SELECT * FROM user_favorite WHERE id_user = '$id_user' AND id_app = '$id_app'";
@@ -20,11 +20,13 @@
         $result_insert = $conn->query($sql_insert);
 
         if ($result_insert) {
-            echo "added";
+            $_SESSION['favorite_success'] = true;
+            header("Location: indexUser.php");
         } else {
             echo "Error: " . $sql_insert . "<br>" . $conn->error;
         }
     } else {
-        echo "exists";
+        $_SESSION['favorite_exist'] = true;
+        header("Location: indexUser.php");
     }
 ?>

@@ -7,3 +7,10 @@
 - HTML
 - CSS
 - PHP
+- JavaScript
+- Chart.Js
+
+## To-do-List
+- Styling
+- Chart to Homepage
+- ???
