@@ -4,11 +4,13 @@
 - Opsi menambahkan game kedalam akun user
 
 ## Tech Stack
-- HTML
-- CSS
-- PHP
-- JavaScript
-- Chart.Js
+First Header |
+------------ |
+HTML | 
+CSS |
+PHP |
+JavaScript |
+Chart.Js |
 
 ## Features
 - Chart based Data from Database
