@@ -1,3 +1,25 @@
+<?php
+include 'connection.php'; 
+session_start();
+ 
+if(isset($_POST['input'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $name = $_POST['nama_user'];
+    $role = 'user';
+    $insert = "INSERT INTO user (username, password, nama_user, role_user) VALUES ('$username', '$password', '$name', 'user')";
+    $query = mysqli_query($conn, $insert);
+    if($query){
+        ?>
+        <script>
+            alert('You are added!');
+            document.location='register.php';
+        </script>
+        <?php
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,28 +43,24 @@
         </div>
         <div class="register">
             <h1 class="title">Register</h1>
-            <h5 class="subtitle">Already have an account?<br><a href="login.html">Login here!</a></h5>
+            <h5 class="subtitle">Already have an account?<br><a href="login.php">Login here!</a></h5>
             <br>
-          <form id="register-form">
-            <div class="text-input">
-                <label for="text">Name</label>
-                <input type="text" placeholder="Input name" required>
-            </div>
-            <div class="text-input">
+            <form action='<?php $_SERVER['PHP_SELF']; ?>' name="insert" method="post">
+          <div class="text-input">
                 <label for="text">Username</label>
-                <input type="text" id="username" placeholder="Input username" required>
+                <input type="text" name="username" id="username" placeholder="Input username" required>
                 <p id="username-error" style="color: red; display: none;">Username must not contain symbols or spaces</p>
-            </div>
-            <div class="text-input">
-                <label for="text">Email</label>
-                <input type="email" placeholder="Input email" required>
             </div>
             <div class="text-input" id="password-container">
                 <label for="password">Password</label>
-                <input type="password" placeholder="Input password" id="password" required>
+                <input type="password" name="password" placeholder="Input password" id="password" required>
                 <i class="fa-solid fa-eye" class="eye"></i>
             </div>
-                <button class="register-btn" type="submit">Register</button>
+            <div class="text-input">
+                <label for="text">Name</label>
+                <input type="text" name="nama_user" placeholder="Input name" required>
+            </div>
+                <button class="register-btn" type="submit" name='input'>Register</button>
           </form>
             </div>
         </div>
@@ -80,15 +98,6 @@ usernameInput.addEventListener("input", function() {
         isUsernameValid = true;
     }
 });
-
-registerForm.addEventListener("submit", function(event) {
-    if (!isUsernameValid) { 
-        event.preventDefault(); 
-    } else {
-        window.location.href = "login.html";
-        event.preventDefault(); 
-    }
-});
-    </script>
+</script>
 
 </html>
