@@ -16,6 +16,6 @@
 - Add Favorite feature for each User
 
 ## To-do-List
-- Styling
+- Styling [ ]
 - Chart to Homepage [x]
-- Animation 
+- Animation [ ]
