@@ -12,6 +12,11 @@ body {
     position: relative;
 }
 
+.container-chart {
+    width: 100%;
+    margin: 15px auto;
+}
+
 #bg-hero {
     width: 100%;
     height: auto;

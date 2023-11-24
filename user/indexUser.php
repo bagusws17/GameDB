@@ -21,6 +21,10 @@ if (isset($_SESSION['favorite_exist'])) {
     echo "<script>alert('Already In Favorite!');</script>";
     unset($_SESSION['favorite_exist']);
 }
+
+// Fetch platform data
+$platform_name = mysqli_query($conn, "SELECT platform_name FROM platform order by id_platform asc");
+$platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name;");
 ?>
 
 <!DOCTYPE html>
@@ -30,20 +34,41 @@ if (isset($_SESSION['favorite_exist'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameDB</title>
     <link rel="stylesheet" href="../src/style.css">
+    <style>
+        /* Animation for entering from below */
+        @keyframes slideInFromBottom {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Apply animation to the body */
+        body {
+            animation: slideInFromBottom 1s ease-in-out;
+        }
+
+        .container-chart {
+                width: 25%;
+                margin: 15px auto;
+            }
+    </style>
 </head>
 <body>
     <div class="container-hero">
         <nav>
             <div class="logo">
                 <img src="../img/game-data.png" alt="logo">
-                <h1>Game DB</h1>
+                <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
             </div>
             <ul>
                 <li><a href="indexUser.php">Home</a></li>
-                <li><a href="#">Games</a></li>
                 <li><a href="panelUser.php">User</a></li>
-                <li><a href="#">Stats</a></li>
-                <li><a href="#">News</a></li>
+                <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
             </ul>
         </nav>
@@ -114,9 +139,35 @@ if (isset($_SESSION['favorite_exist'])) {
                 ?>
             </tbody>
         </table>
+        <div class="container-chart">
+            <canvas id="myChart" width="500" height="500"></canvas>
+        </div>
     </div>
     <footer>
         <p>&copy; 2023 GameDB</p>
     </footer>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
+                datasets: [{
+                        label: '# of Votes',
+                        data: [<?php while ($p = mysqli_fetch_array($platform)) { echo '"' . $p['app_count'] . '",';}?>],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                        ],
+                        borderWidth: 1
+                    }]
+            },
+        });
+    </script>
 </html>

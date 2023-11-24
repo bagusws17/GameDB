@@ -12,14 +12,14 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
 
         <style type="text/css">
-            .container {
+            .container-chart {
                 width: 25%;
                 margin: 15px auto;
             }
         </style>
     </head>
     <body>
-        <div class="container">
+        <div class="container-chart">
             <canvas id="myChart" width="100" height="100"></canvas>
         </div>
         <script>

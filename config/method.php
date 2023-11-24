@@ -11,7 +11,6 @@ function login($username, $password) {
     $_SESSION['username'] = $user['username'];
     $_SESSION['password'] = $user['password'];
     $_SESSION['nama_user'] = $user['nama_user'];
-    $_SESSION['join_date'] = $user['join_date'];
     $_SESSION['role_user'] = $user['role_user'];
 
     if ($user['role'] == 'admin') {
@@ -41,5 +40,40 @@ if (isset($_POST['update_data'])) {
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }
+}
+
+if (isset($_POST['register'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $namaUser = $_POST['nama_user'];
+
+    // Validate the input data
+    if (empty($username) || empty($password) || empty($namaUser) || ) {
+        echo "Please fill in all the fields.";
+        exit;
+    }
+
+    // Check if the email address is already in use
+    $sql = "SELECT * FROM user WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo "The username is already in use.";
+        exit;
+    }
+
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert the user data into the database
+    $sql = "INSERT INTO user (username, password, nama_user, role_user) VALUES (?, ?, ?, user)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssss", $username, $password, $namaUser, $hashed_password);
+    $stmt->execute();
+
+    echo "Registration successful. Please log in to your account.";
 }
 ?>

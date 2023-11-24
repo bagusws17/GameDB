@@ -18,7 +18,7 @@ if (isset($_POST['login'])) {
         $_SESSION['role'] = $row['role_user'];
         header("Location: routing.php");
     } else {
-        echo "<script>alert('Username atau password Anda salah. Silahkan coba lagi!')</script>";
+        echo "<script>alert('Wrong username or password. Please try again!')</script>";
     }
 }
 ?>
@@ -37,17 +37,33 @@ if (isset($_POST['login'])) {
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="src/login.css">
+    <style>
+        .container {
+            animation: fade-in 1s ease-in-out;
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
         <div class="leftcon">
             <img src="img/game-data.png" alt="Logo Game Data" width="280" height="280" /><br>
-            <h1>Welcome to<br>Game Database</h1>
+            <h1>Welcome to<br>Game DB</h1>
         </div>
         <div class="login">
             <h1 class="title">Login</h1>
-            <h5 class="subtitle">Don't have an account?<br><a href="register.html">Register here!</a></h5>
+            <h5 class="subtitle">Don't have an account?<br><a href="register.php">Register here!</a></h5>
             <br>
             <form id="login-form" method="POST">
                 <div class="text-input">

@@ -1,6 +1,15 @@
 <?php
 include "connection.php";
 session_start();
+
+// Fetch platform data
+$platform_name = mysqli_query($conn, "SELECT platform_name FROM platform order by id_platform asc");
+$platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name;");
+
+function price($price){
+    $formattedprice = "Rp " . number_format($price, 2, ',', '.');
+    return $formattedprice;
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,6 +19,29 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameDB</title>
     <link rel="stylesheet" href="src/style.css">
+    <style>
+        /* Animation for entering from below */
+        @keyframes slideInFromBottom {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Apply animation to the body */
+        body {
+            animation: slideInFromBottom 1s ease-in-out;
+        }
+
+        .container-chart {
+                width: 25%;
+                margin: 15px auto;
+            }
+    </style>
 </head>
 <body>
     <div class="container-hero">
@@ -19,11 +51,10 @@ session_start();
                 <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
             </div>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Games</a></li>
-                <li><a href="#">User</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="index.php">Games</a></li>
                 <li><a href="#">Stats</a></li>
-                <li><a href="#">News</a></li>
+                <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="login.php">Login</a></li>
             </ul>
         </nav>
@@ -70,9 +101,8 @@ session_start();
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
                             echo "<td>" . $row['rating'] . "</td>";
-                            echo "<td>" . $row['installs'] . "</td>";
-                            echo "<td>" . $row['price'] . "</td>";
-                            echo "</tr>";
+                            echo "<td>" . $row['installs'] . "+" . "</td>";
+                            echo "<td>" . price($row['price']) . "</td>";
                         }
                     } else {
                         echo "<tr><td colspan='5'>No data available</td></tr>";
@@ -80,9 +110,35 @@ session_start();
                 ?>
             </tbody>
         </table>
+        <div class="container-chart">
+            <canvas id="myChart" width="500" height="500"></canvas>
+        </div>
     </div>
     <footer>
         <p>&copy; 2023 GameDB</p>
     </footer>
 </body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
+                datasets: [{
+                        label: '# of Votes',
+                        data: [<?php while ($p = mysqli_fetch_array($platform)) { echo '"' . $p['app_count'] . '",';}?>],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                        ],
+                        borderWidth: 1
+                    }]
+            },
+        });
+    </script>
 </html>
