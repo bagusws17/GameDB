@@ -3,7 +3,8 @@
 - Website untuk List Game
 - Opsi menambahkan game kedalam akun user
 
-Tech Stack  |
+## Tech Stack  
+Tech|
 ------------ |
 HTML | 
 CSS |
