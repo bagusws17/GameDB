@@ -19,4 +19,4 @@ Chart.Js |
 ## To-do-List
 - [ ] Styling 
 - [x] Chart to Homepage 
-- [ ] Animation 
+- [x] Animation 
