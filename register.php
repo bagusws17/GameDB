@@ -7,15 +7,27 @@ if(isset($_POST['input'])){
     $password = $_POST['password'];
     $name = $_POST['nama_user'];
     $role = 'user';
-    $insert = "INSERT INTO user (username, password, nama_user, role_user) VALUES ('$username', '$password', '$name', 'user')";
-    $query = mysqli_query($conn, $insert);
-    if($query){
-        ?>
-        <script>
-            alert('You are added!');
-            document.location='register.php';
-        </script>
-        <?php
+    $checkUsernameQuery = "SELECT * FROM user WHERE username = '$username'";
+    $checkUsernameResult = mysqli_query($conn, $checkUsernameQuery);
+    if(mysqli_num_rows($checkUsernameResult) > 0) {
+            ?>
+            <script>
+                alert('Username already exists!');
+                document.location='register.php';
+            </script>
+            <?php
+    } else {
+        // Username does not exist, insert the new user into the database
+        $insert = "INSERT INTO user (username, password, nama_user, role_user) VALUES ('$username', '$password', '$name', 'user')";
+        $query = mysqli_query($conn, $insert);
+        if($query){
+            ?>
+            <script>
+                alert('You are added!');
+                document.location='login.php';
+            </script>
+            <?php
+        }
     }
 }
 ?>
@@ -32,7 +44,7 @@ if(isset($_POST['input'])){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="./src/register.css">
+    <link rel="stylesheet" href="src/register.css">
 </head>
 
 <body>
