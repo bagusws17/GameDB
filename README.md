@@ -1,22 +1,16 @@
 # GameDB
 # Project of Pemrograman Web I
-- List of Game Website
+- Website untuk List Game
+- Opsi menambahkan game kedalam akun user
 
-## Tech Stack  
-Tech|
------------- |
-HTML | 
-CSS |
-PHP |
-JavaScript |
-Chart.Js |
-
-## Features
-- Chart based Data from Database
-- Username Checking
-- Add Favorite feature for each User
+## Tech Stack
+- HTML
+- CSS
+- PHP
+- JavaScript
+- Chart.Js
 
 ## To-do-List
-- [ ] Styling 
-- [x] Chart to Homepage 
-- [ ] Animation 
+- Styling
+- Chart to Homepage
+- ???

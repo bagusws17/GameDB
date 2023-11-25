@@ -7,29 +7,36 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$del=$_GET['del'];
-if($del!=""){
-    $sql = "delete from app_detail where id_app='$del'";
+$del = $_GET['del'];
+if ($del != "") {
+    $sql = "DELETE FROM app_detail WHERE id_app='$del'";
     $query = mysqli_query($conn, $sql);
-    if($query){
-    ?>
-    <script>alert('Data Deleted Succesfully');document.location='panel.php';</script>
-    <?php
+    if ($query) {
+        echo "<script>alert('Data Deleted Successfully'); window.location.href='panel.php';</script>";
+        exit();
     }
 }
 
-function price($price){
+function price($price)
+{
     $formattedprice = "Rp " . number_format($price, 2, ',', '.');
     return $formattedprice;
 }
 
+function install($installs)
+{
+    $formattedinstalls = number_format($installs, 0, '.', '.');
+    return $formattedinstalls;
+}
+
 // Fetch platform data
-$platform_name = mysqli_query($conn, "SELECT platform_name FROM platform order by id_platform asc");
+$platform_name = mysqli_query($conn, "SELECT platform_name FROM platform ORDER BY id_platform ASC");
 $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name;");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +49,7 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
                 transform: translateY(100%);
                 opacity: 0;
             }
+
             100% {
                 transform: translateY(0);
                 opacity: 1;
@@ -49,16 +57,17 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
         }
 
         /* Apply animation to the body */
-        body {
+        .container-content {
             animation: slideInFromBottom 1s ease-in-out;
         }
 
         .container-chart {
-                width: 25%;
-                margin: 15px auto;
-            }
+            width: 25%;
+            margin: 15px auto;
+        }
     </style>
 </head>
+
 <body>
     <div class="container-hero">
         <nav>
@@ -68,6 +77,7 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
             </div>
             <ul>
                 <li><a href="panel.php">Games</a></li>
+                <li><a href="insert.php">Add</a></li>
                 <li><a href="#">Stats</a></li>
                 <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
@@ -75,25 +85,25 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
         </nav>
     </div>
     <div class="container-content">
-            <div class="title">
-                <div class="subtitle">
-                    Database of Game.
-                </div>
-                <?php
-                        $sessionID = $_SESSION['id'];
-
-                        $namaUser = "SELECT nama_user FROM user WHERE id_user = '$sessionID'";
-                        $resultUser = $conn->query($namaUser);
-                        if ($resultUser->num_rows > 0) {
-                            while ($row = $resultUser->fetch_assoc()) {
-                                $nama = $row["nama_user"];
-                            }
-                        }
-                    ?>
-                <h1 class="white-text">Welcome to GameDB, <?php echo $nama ?></h1>
-                <p class="white-text">GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
-                <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
+        <div class="title">
+            <div class="subtitle">
+                Database of Game.
             </div>
+            <?php
+            $sessionID = $_SESSION['id'];
+
+            $namaUser = "SELECT nama_user FROM user WHERE id_user = '$sessionID'";
+            $resultUser = $conn->query($namaUser);
+            if ($resultUser->num_rows > 0) {
+                while ($row = $resultUser->fetch_assoc()) {
+                    $nama = $row["nama_user"];
+                }
+            }
+            ?>
+            <h1 class="white-text">Welcome to GameDB, <?php echo $nama ?></h1>
+            <p class="white-text">GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
+            <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
+        </div>
         <div class="search-container">
             <input type="text" id="search" class="search-input" placeholder="Search...">
         </div>
@@ -110,26 +120,25 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
             </thead>
             <tbody>
                 <?php
-                    $sql = "SELECT * FROM app_detail";
-                    $result = $conn->query($sql);
+                $sql = "SELECT * FROM app_detail";
+                $result = $conn->query($sql);
 
-                    // Menampilkan data ke dalam tabel
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . $row['app_name'] . "</td>";
-                            echo "<td>" . $row['genre'] . "</td>";
-                            echo "<td>" . $row['rating'] . "</td>";
-                            echo "<td>" . $row['installs'] . "+" . "</td>";
-                            echo "<td>" . price($row['price']) . "</td>";
-                            echo "<td> <a href='update.php?id=$row[id_app]'>Edit</a>
-                            <a href='panel.php?id=$row[id_app]'>Delete</a></td>
-                            </tr>"
-                            ;
-                        }
-                    } else {
-                        echo "<tr><td colspan='5'>No data available</td></tr>";
+                // Menampilkan data ke dalam tabel
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row['app_name'] . "</td>";
+                        echo "<td>" . $row['genre'] . "</td>";
+                        echo "<td>" . $row['rating'] . "</td>";
+                        echo "<td>" . install($row['installs']) . "+" . "</td>";
+                        echo "<td>" . price($row['price']) . "</td>";
+                        echo "<td> <a href='update.php?id=$row[id_app]'>Edit</a>
+                            <a href='panel.php?del=$row[id_app]'>Delete</a></td>
+                            </tr>";
                     }
+                } else {
+                    echo "<tr><td colspan='5'>No data available</td></tr>";
+                }
                 ?>
             </tbody>
         </table>
@@ -142,13 +151,15 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
     </footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var ctx = document.getElementById("myChart");
-        var myChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
-                datasets: [{
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
+                    datasets: [{
                         label: '# of Votes',
                         data: [<?php while ($p = mysqli_fetch_array($platform)) { echo '"' . $p['app_count'] . '",';}?>],
                         backgroundColor: [
@@ -161,7 +172,10 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
                         ],
                         borderWidth: 1
                     }]
-            },
-        });
-    </script>
+                },
+            });
+        }, 1000);
+    });
+</script>
+
 </html>

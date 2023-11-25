@@ -10,6 +10,12 @@ function price($price){
     $formattedprice = "Rp " . number_format($price, 2, ',', '.');
     return $formattedprice;
 }
+
+function install($installs)
+{
+    $formattedinstalls = number_format($installs, 0, '.', '.');
+    return $formattedinstalls;
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,27 +39,32 @@ function price($price){
         }
 
         /* Apply animation to the body */
-        body {
+        .hero-content {
+            animation: slideInFromBottom 1s ease-in-out;
+        }
+
+        .container-content {
             animation: slideInFromBottom 1s ease-in-out;
         }
 
         .container-chart {
-                width: 25%;
-                margin: 15px auto;
-            }
+            width: 25%;
+            margin: 15px auto;
+            animation: slideInFromBottom 1s ease-in-out;
+        }
     </style>
 </head>
 <body>
-    <div class="container-hero">
+    <div class="container-hero" id="container-hero">
         <nav>
             <div class="logo">
                 <img src="img/game-data.png" alt="logo">
                 <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
             </div>
             <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="index.php">Games</a></li>
-                <li><a href="#">Stats</a></li>
+                <li><a href="#container-hero">Home</a></li>
+                <li><a href="#container-content">Games</a></li>
+                <li><a href="#container-chart">Stats</a></li>
                 <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="login.php">Login</a></li>
             </ul>
@@ -67,15 +78,15 @@ function price($price){
             </section>
         </main>
     </div>
-    <div class="container-content">
-            <div class="title">
-                <div class="subtitle">
-                    Database of Game.
-                </div>
-                <h1 class="white-text">Welcome to GameDB</h1>
-                <p class="white-text">GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
-                <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
+    <div class="container-content" id="container-content">
+        <div class="title">
+            <div class="subtitle">
+                Database of Game.
             </div>
+            <h1 class="white-text">Welcome to GameDB</h1>
+            <p class="white-text">GameDB is the ultimate resource for Gamers. We track everything from games and apps to DLC and stats. We also have a wealth of news and information about Game.</p>
+            <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
+        </div>
         <div class="search-container">
             <input type="text" id="search" class="search-input" placeholder="Search...">
         </div>
@@ -101,8 +112,9 @@ function price($price){
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
                             echo "<td>" . $row['rating'] . "</td>";
-                            echo "<td>" . $row['installs'] . "+" . "</td>";
+                            echo "<td>" . install($row['installs']) . "+" . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
+                            echo "</tr>";
                         }
                     } else {
                         echo "<tr><td colspan='5'>No data available</td></tr>";
@@ -110,7 +122,7 @@ function price($price){
                 ?>
             </tbody>
         </table>
-        <div class="container-chart">
+        <div class="container-chart" id="container-chart">
             <canvas id="myChart" width="500" height="500"></canvas>
         </div>
     </div>
@@ -118,14 +130,16 @@ function price($price){
         <p>&copy; 2023 GameDB</p>
     </footer>
 </body>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var ctx = document.getElementById("myChart");
-        var myChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
-                datasets: [{
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
+                    datasets: [{
                         label: '# of Votes',
                         data: [<?php while ($p = mysqli_fetch_array($platform)) { echo '"' . $p['app_count'] . '",';}?>],
                         backgroundColor: [
@@ -138,7 +152,25 @@ function price($price){
                         ],
                         borderWidth: 1
                     }]
-            },
-        });
-    </script>
+                },
+            });
+        }, 1000);
+    });
+
+    // Scroll to top when clicking on the Home link
+    document.querySelector('a[href="#container-hero"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#container-hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    document.querySelector('a[href="#container-content"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#container-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    document.querySelector('a[href="#container-chart"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#container-chart').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+</script>
 </html>

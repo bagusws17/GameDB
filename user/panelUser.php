@@ -16,6 +16,12 @@ if (isset($_SESSION['delete_success'])) {
     echo "<script>alert('Record deleted successfully');</script>";
     unset($_SESSION['delete_success']);
 }
+
+function install($installs)
+{
+    $formattedinstalls = number_format($installs, 0, '.', '.');
+    return $formattedinstalls;
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +31,30 @@ if (isset($_SESSION['delete_success'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameDB</title>
     <link rel="stylesheet" href="../src/admin.css">
+    <style>
+        /* Animation for entering from below */
+        @keyframes slideInFromBottom {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Apply animation to the body */
+        .container-content {
+            animation: slideInFromBottom 1s ease-in-out;
+        }
+
+        .container-chart {
+            width: 25%;
+            margin: 15px auto;
+        }
+    </style>
 </head>
 <body>
     <div class="container-hero">
@@ -35,10 +65,8 @@ if (isset($_SESSION['delete_success'])) {
             </div>
             <ul>
                 <li><a href="indexUser.php">Home</a></li>
-                <li><a href="#">Games</a></li>
                 <li><a href="panelUser.php">User</a></li>
-                <li><a href="#">Stats</a></li>
-                <li><a href="#">News</a></li>
+                <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
             </ul>
         </nav>
@@ -85,7 +113,7 @@ if (isset($_SESSION['delete_success'])) {
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
                             echo "<td>" . $row['rating'] . "</td>";
-                            echo "<td>" . $row['installs'] . "</td>";
+                            echo "<td>" . install($row['installs']) . "+" . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
                             echo "<td><a href='deleteFavorite.php?id_app=" . $row['id_app'] . "'>Unfavorite</a></td>";
                             echo "</tr>";

@@ -56,12 +56,10 @@ if($hasil['id_app']!=""){
                 <h1>Game DB</h1>
             </div>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Games</a></li>
-                <li><a href="#">User</a></li>
+                <li><a href="panel.php">Games</a></li>
+                <li><a href="insert.php">Add</a></li>
                 <li><a href="#">Stats</a></li>
-                <li><a href="#">News</a></li>
-                <li><a href="../login.php">Login</a></li>
+                <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
             </ul>
         </nav>

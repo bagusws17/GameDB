@@ -22,6 +22,12 @@ if (isset($_SESSION['favorite_exist'])) {
     unset($_SESSION['favorite_exist']);
 }
 
+function install($installs)
+{
+    $formattedinstalls = number_format($installs, 0, '.', '.');
+    return $formattedinstalls;
+}
+
 // Fetch platform data
 $platform_name = mysqli_query($conn, "SELECT platform_name FROM platform order by id_platform asc");
 $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name;");
@@ -59,14 +65,14 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
     </style>
 </head>
 <body>
-    <div class="container-hero">
+    <div class="container-hero" id="container-hero">
         <nav>
             <div class="logo">
                 <img src="../img/game-data.png" alt="logo">
                 <h1>Game&nbsp;<h1 class="blue-text">DB</h1></h1>
             </div>
             <ul>
-                <li><a href="indexUser.php">Home</a></li>
+                <li><a href="#container-hero">Home</a></li>
                 <li><a href="panelUser.php">User</a></li>
                 <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
@@ -128,7 +134,7 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
                             echo "<td>" . $row['rating'] . "</td>";
-                            echo "<td>" . $row['installs'] . "</td>";
+                            echo "<td>" . install($row['installs']) . "+" . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
                             echo "<td><a href='addToFavorites.php?id_app=" . $row['id_app'] . "'>Add to Favorites</a></td>";
                             echo "</tr>";
@@ -148,13 +154,15 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
     </footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var ctx = document.getElementById("myChart");
-        var myChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
-                datasets: [{
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [<?php while ($b = mysqli_fetch_array($platform_name)) { echo '"' . $b['platform_name'] . '",';}?>],
+                    datasets: [{
                         label: '# of Votes',
                         data: [<?php while ($p = mysqli_fetch_array($platform)) { echo '"' . $p['app_count'] . '",';}?>],
                         backgroundColor: [
@@ -167,7 +175,15 @@ $platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FR
                         ],
                         borderWidth: 1
                     }]
-            },
-        });
+                },
+            });
+        }, 1000);
+    });
+
+     // Scroll to top when clicking on the Home link
+     document.querySelector('a[href="#container-hero"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#container-hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
     </script>
 </html>
