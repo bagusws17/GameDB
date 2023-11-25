@@ -125,6 +125,17 @@ if ($result_check->num_rows == 0) {
                     <td><input type="number" name="price" required></td>
                 </tr>
                 <tr>
+                <tr>
+                    <td>Platform</td>
+                    <td>
+                        <select name="genre" required>
+                            <option value="FPS">FPS</option>
+                            <option value="RPG">RPG</option>
+                            <option value="Simulation">Simulation</option>
+                            <option value="Strategy">Strategy</option>
+                        </select>
+                    </td>
+                </tr>
                     <td></td>
                     <td>
                         <input type="submit" name='submit' value="Insert Data Game" style="background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
