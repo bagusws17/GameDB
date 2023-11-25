@@ -60,12 +60,6 @@ if (isset($_SESSION['data_exists'])) {
 //         }
 //     }
 // }
-$sqlPlatforms = "SELECT * FROM platform";
-$queryPlatforms = $conn->query($sqlPlatforms);
-$platforms = [];
-while ($row = $queryPlatforms->fetch_assoc()) {
-    $platforms[] = $row;
-}
 
 $sqlApps = "SELECT * FROM app_detail";
 $queryApps = $conn->query($sqlApps);
@@ -129,31 +123,38 @@ while ($row = $queryApps->fetch_assoc()) {
     </div>
     <div class="container-content">
         <h1 style="color: white;">Insert Game&nbsp;<span style="color: #3498db;">DB</span> Record</h1>
-        <form action="insertProcess.php" name="insert" method="post">
+        <form action="insertAppProcess.php" name="insert" method="post">
             <table>
                 <tr>
                     <td>App Name</td>
-                        <td>
-                            <select name="id_app" required>
-                                <?php foreach ($apps as $app) : ?>
-                                    <option value="<?php echo $app['id_app'] ?>"><?php echo $app['app_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </td>
+                    <td><input type="text" name="app_name" required></td>
                 </tr>
                 <tr>
-                    <td>Platform</td>
+                    <td>Genre</td>
                     <td>
-                        <select name="id_platform" required>
-                            <?php foreach ($platforms as $platform) : ?>
-                                <option value="<?php echo $platform['id_platform'] ?>"><?php echo $platform['platform_name'] ?></option>
-                            <?php endforeach; ?>
+                        <select name="genre" required>
+                            <option value="FPS">FPS</option>
+                            <option value="RPG">RPG</option>
+                            <option value="Simulation">Simulation</option>
+                            <option value="Strategy">Strategy</option>
                         </select>
                     </td>
                 </tr>
+                <tr>
+                    <td>Rating</td>
+                    <td><input type="number" step="any" name="rating" required></td>
+                </tr>
+                <tr>
+                    <td>Installs</td>
+                    <td><input type="number" name="installs" required></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><input type="number" name="price" required></td>
+                </tr>
+                <tr>
                     <td></td>
                     <td>
-                        <a href="insertProcess.php?app_name="> </a>
                         <input type="submit" name='submit' value="Insert Data Game" style="background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
                     </td>
                 </tr>
