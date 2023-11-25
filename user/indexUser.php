@@ -30,7 +30,7 @@ function install($installs)
 
 // Fetch platform data
 $platform_name = mysqli_query($conn, "SELECT platform_name FROM platform order by id_platform asc");
-$platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name;");
+$platform = mysqli_query($conn, "SELECT COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name ORDER BY platform.id_platform ASC;");
 ?>
 
 <!DOCTYPE html>
