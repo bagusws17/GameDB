@@ -67,7 +67,7 @@ if($hasil['id_app']!=""){
         </nav>
     </div>
     <div class="container-content">
-        <h2>Update GameDB Record</h2>
+        <h2 style="color: #3498db;">Update GameDB Record</h2>
         <form action='<?php $_SERVER['PHP_SELF']; ?>' name="update" method="post">
         <table>
             <tr>

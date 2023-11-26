@@ -129,12 +129,12 @@ while ($row = $queryApps->fetch_assoc()) {
             <table>
                 <tr>
                     <td>App Name</td>
-                    <td><input type="text" name="app_name" required></td>
+                    <td><input type="text" name="app_name" style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px; cursor: pointer;" required></td>
                 </tr>
                 <tr>
                     <td>Genre</td>
                     <td>
-                        <select name="genre" required>
+                        <select name="genre" style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px; cursor: pointer;" required>
                             <option value="FPS">FPS</option>
                             <option value="RPG">RPG</option>
                             <option value="Simulation">Simulation</option>
@@ -144,15 +144,15 @@ while ($row = $queryApps->fetch_assoc()) {
                 </tr>
                 <tr>
                     <td>Rating</td>
-                    <td><input type="number" step="any" name="rating" required></td>
+                    <td><input type="number" step="any" name="rating" style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px; cursor: pointer;" required></td>
                 </tr>
                 <tr>
                     <td>Installs</td>
-                    <td><input type="number" name="installs" required></td>
+                    <td><input type="number" name="installs" style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px; cursor: pointer;" required></td>
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><input type="number" name="price" required></td>
+                    <td><input type="number" name="price"style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px; cursor: pointer;"  required></td>
                 </tr>
                 <tr>
                     <td></td>

@@ -59,9 +59,10 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
         }
 
         .container-chart {
-                width: 25%;
-                margin: 15px auto;
-            }
+            width: 25%;
+            margin: 15px auto;
+            animation: slideInFromBottom 1s ease-in-out;
+        }
     </style>
 </head>
 <body>

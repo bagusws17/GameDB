@@ -120,9 +120,9 @@ while ($row = $queryApps->fetch_assoc()) {
             </div>
             <ul>
                 <li><a href="panel.php">Games</a></li>
-                <li><a href="insertConn.php">Add</a></li>
-                <li><a href="deleteConn.php">Delete</a></li>
                 <li><a href="insertApp.php">Add Game</a></li>
+                <li><a href="insertConn.php">Platform</a></li>
+                <li><a href="deleteConn.php">Delete Platform</a></li>
                 <li><a href="#">Stats</a></li>
                 <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
@@ -136,7 +136,7 @@ while ($row = $queryApps->fetch_assoc()) {
                 <tr>
                     <td>App Name</td>
                         <td>
-                            <select name="id_app" required>
+                            <select name="id_app" style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px; cursor: pointer;" required>
                                 <?php foreach ($apps as $app) : ?>
                                     <option value="<?php echo $app['id_app'] ?>"><?php echo $app['app_name'] ?></option>
                                 <?php endforeach; ?>
@@ -146,7 +146,7 @@ while ($row = $queryApps->fetch_assoc()) {
                 <tr>
                     <td>Platform</td>
                     <td>
-                        <select name="id_platform" required>
+                        <select name="id_platform" style="background-color: white; color: black; padding: 5px; border: none; border-radius: 5px; cursor: pointer;" required>
                             <?php foreach ($platforms as $platform) : ?>
                                 <option value="<?php echo $platform['id_platform'] ?>"><?php echo $platform['platform_name'] ?></option>
                             <?php endforeach; ?>

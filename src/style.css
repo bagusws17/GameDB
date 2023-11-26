@@ -172,6 +172,7 @@ table {
     margin-top: 20px;
     border-radius: 10px; 
     overflow: hidden; /* Memastikan agar border-radius diterapkan dengan benar */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
 }
 
 th, td {
@@ -183,6 +184,16 @@ th, td {
 th {
     background-color: #1f232e;
     border: none;
+    color: #A2FACF; /* Set color for table header text */
+}
+
+td {
+    color: #fff; /* Set color for table cell text */
+}
+
+tr:hover {
+    background-color: #3498db; /* Set background color for hovered rows */
+    cursor: pointer;
 }
 
 footer {
