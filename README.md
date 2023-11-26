@@ -20,4 +20,5 @@ Chart.Js |
 - [x] Styling 
 - [x] Chart to Homepage 
 - [x] Animation
-- [ ] Search Function
+- [x] Search Function
+- [x] Animation 
