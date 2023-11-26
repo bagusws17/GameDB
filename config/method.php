@@ -48,12 +48,12 @@ if (isset($_POST['register'])) {
     $namaUser = $_POST['nama_user'];
 
     // Validate the input data
-    if (empty($username) || empty($password) || empty($namaUser) || ) {
-        echo "Please fill in all the fields.";
-        exit;
+    if (empty($username) || empty($password) || empty($namaUser)) {
+    echo "Please fill in all the fields.";
+    exit;
     }
 
-    // Check if the email address is already in use
+    // Check if the username is already in use
     $sql = "SELECT * FROM user WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);

@@ -13,11 +13,11 @@
         $result_insert = $conn->query($sql_insert);
         if ($result_insert) {
             $_SESSION['data_added'] = true;
-            header("Location: insert.php");
+            header("Location: insertConn.php");
             exit();
             if ($result_insert_platform) {
                 $_SESSION['data_added'] = true;
-                header("Location: insert.php");
+                header("Location: insertConn.php");
                 exit();
             } else {
                 echo "Error: " . $sql_insert_platform . "<br>" . $conn->error;
@@ -27,6 +27,6 @@
         }
     } else {
         $_SESSION['data_exists'] = true;
-        header("Location: insert.php");
+        header("Location: insertConn.php");
     }
 ?>

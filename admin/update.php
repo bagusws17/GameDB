@@ -57,7 +57,9 @@ if($hasil['id_app']!=""){
             </div>
             <ul>
                 <li><a href="panel.php">Games</a></li>
-                <li><a href="insert.php">Add</a></li>
+                <li><a href="insertApp.php">Add Game</a></li>
+                <li><a href="insertConn.php">Platform</a></li>
+                <li><a href="deleteConn.php">Delete Platform</a></li>
                 <li><a href="#">Stats</a></li>
                 <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
