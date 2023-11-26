@@ -17,6 +17,7 @@ Chart.Js |
 - Add Favorite feature for each User
 
 ## To-do-List
-- [ ] Styling 
+- [x] Styling 
 - [x] Chart to Homepage 
-- [x] Animation 
+- [x] Animation
+- [ ] Search Function
