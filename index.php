@@ -16,6 +16,12 @@ function install($installs)
     $formattedinstalls = number_format($installs, 0, '.', '.');
     return $formattedinstalls;
 }
+
+if (isset($_GET['reset-search'])) {
+    // Redirect to the same page without any search parameters
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -88,8 +94,57 @@ function install($installs)
             <p class="white-text">Whether you're a gamer or a seasoned veteran, GameDB has something for everyone.</p>
         </div>
         <div class="search-container">
-            <input type="text" id="search" class="search-input" placeholder="Search...">
+            <form class="form-search" action='<?php $_SERVER['PHP_SELF']; ?>' method="GET">
+                <input type="text" id="search" class="search-input" placeholder="Search..." name="search">
+                <button type="submit" class="search-button" style="background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" name="submit-search">Search</button>
+            </form>
         </div>
+        <?php
+        if (isset($_GET['submit-search'])) {
+            // Get the search keyword
+            $searchKeyword = ($_GET['search']);
+
+            // Prepare the SQL query with a WHERE clause for app_name
+            $sql = "SELECT * FROM app_detail WHERE app_name LIKE '%$searchKeyword%'";
+            $result = $conn->query($sql);
+
+            // Display the search results in a table
+            if ($result->num_rows > 0) {
+                echo '<table>';
+                echo '<thead>';
+                echo '<tr>';
+                echo '<th>Game Name</th>';
+                echo '<th>Genre</th>';
+                echo '<th>Rating</th>';
+                echo '<th>Installs</th>';
+                echo '<th>Price</th>';
+                echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['app_name'] . "</td>";
+                    echo "<td>" . $row['genre'] . "</td>";
+                    echo "<td>" . $row['rating'] . "</td>";
+                    echo "<td>" . install($row['installs']) . "+" . "</td>";
+                    echo "<td>" . price($row['price']) . "</td>";
+                    echo "</tr>";
+                }
+
+                echo '</tbody>';
+                echo '</table>';
+
+                // Add a Reset button or link
+                echo "<form action='" . $_SERVER['PHP_SELF'] . "' method='GET'>";
+                echo "<button type='submit' name='reset-search' style='margin-top: 25px; background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;' name='submit-search'>Reset Search</button>";
+                echo "</form>";
+            } else {
+                echo "<p>No data available</p>";
+            }
+        }
+        ?>
+        <h1 class="white-text">List of Game</h1>
         <table>
             <thead>
                 <tr>
