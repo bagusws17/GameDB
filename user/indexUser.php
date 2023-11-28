@@ -37,6 +37,15 @@ if (isset($_GET['reset-search'])) {
 // Fetch platform data
 $platform_name = mysqli_query($conn, "SELECT platform_name, id_platform FROM platform ORDER BY id_platform ASC");
 $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name, platform.id_platform ORDER BY platform.id_platform ASC;");
+
+// Fetch game statistics by genre
+$genre_data_result = mysqli_query($conn, "SELECT genre, COUNT(id_app) AS game_count FROM app_detail GROUP BY genre ORDER BY game_count DESC");
+
+// Fetch data into an array
+$genre_data = array();
+while ($row = mysqli_fetch_assoc($genre_data_result)) {
+    $genre_data[] = $row;
+}
 ?>
 
 <!DOCTYPE html>
@@ -127,7 +136,8 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
             $searchKeyword = ($_GET['search']);
 
             // Prepare the SQL query with a WHERE clause for app_name
-            $sql = "SELECT * FROM app_detail WHERE app_name LIKE '%$searchKeyword%'";
+            $sql = "SELECT * FROM app_detail WHERE app_name LIKE '%$searchKeyword%'
+                    ORDER BY app_name ASC";
             $result = $conn->query($sql);
 
             // Display the search results in a table
@@ -140,6 +150,7 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
                 echo '<th>Rating</th>';
                 echo '<th>Installs</th>';
                 echo '<th>Price</th>';
+                echo '<th>Action</th>';
                 echo '</tr>';
                 echo '</thead>';
                 echo '<tbody>';
@@ -151,6 +162,7 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
                     echo "<td>" . $row['rating'] . "</td>";
                     echo "<td>" . install($row['installs']) . "+" . "</td>";
                     echo "<td>" . price($row['price']) . "</td>";
+                    echo "<td><a href='addToFavorites.php?id_app=" . $row['id_app'] . "' style='color: #3498db; text-decoration:none;'>Add to Favorites</a></td>";
                     echo "</tr>";
                 }
 
@@ -162,7 +174,10 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
                 echo "<button type='submit' name='reset-search' style='margin-top: 25px; background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;' name='submit-search'>Reset Search</button>";
                 echo "</form>";
             } else {
-                echo "<p>No data available</p>";
+                echo "<p style='color: #3498db;'>No data available</p>";
+                echo "<form action='" . $_SERVER['PHP_SELF'] . "' method='GET'>";
+                echo "<button type='submit' name='reset-search' style='margin-top: 25px; background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;' name='submit-search'>Reset Search</button>";
+                echo "</form>";
             }
         }
         ?>
@@ -180,7 +195,8 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
             </thead>
             <tbody>
                 <?php
-                    $sql = "SELECT * FROM app_detail";
+                    $sql = "SELECT * FROM app_detail
+                    ORDER BY app_name ASC";
                     $result = $conn->query($sql);
 
                     // Menampilkan data ke dalam tabel
@@ -192,7 +208,7 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
                             echo "<td>" . $row['rating'] . "</td>";
                             echo "<td>" . install($row['installs']) . "+" . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
-                            echo "<td><a href='addToFavorites.php?id_app=" . $row['id_app'] . "'>Add to Favorites</a></td>";
+                            echo "<td><a href='addToFavorites.php?id_app=" . $row['id_app'] . "' style='padding: 5px; color: #3498db; text-decoration:none; ;'>Add to Favorites</a></td>";
                             echo "</tr>";
                         }
                     } else {
@@ -201,8 +217,15 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
                 ?>
             </tbody>
         </table>
-        <div class="container-chart">
+    </div>
+    <div class="container-for-chart" style="display: flex; flex-direction: row; justify-content: space-around;">
+        <div class="container-chart" id="container-chart">
+            <h1 style="display: flex; justify-content: space-around; align-items: center; font-weight: bold; font-size: 18px; text-align: center;color: #A2FACF;">Platform</h1>
             <canvas id="myChart" width="500" height="500"></canvas>
+        </div>
+        <div class="container-chart">
+            <h1 style="display: flex; justify-content: space-around; align-items: center; font-weight: bold; font-size: 18px; text-align: center;color: #A2FACF;">Genre</h1>
+            <canvas id="myChart2" width="500" height="500"></canvas>
         </div>
     </div>
     <footer>
@@ -235,6 +258,34 @@ $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) 
             });
         }, 1000);
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+                setTimeout(function () {
+                    var ctx = document.getElementById("myChart2");
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [<?php foreach ($genre_data as $g) { echo '"' . $g['genre'] . '",'; } ?>],
+                            datasets: [{
+                                data: [<?php foreach ($genre_data as $g) { echo '"' . $g['game_count'] . '",'; } ?>],
+                                backgroundColor: [
+                                    'rgba(176, 64, 64, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(52, 152, 219, 1)',
+                                    'rgba(255, 236, 0, 1)',
+                                ],
+                                borderColor: [
+                                    'rgba(176, 64, 64, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(52, 152, 219, 1)',
+                                    'rgba(255, 236, 0, 1)',
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                    });
+                }, 1000);
+            });
 
      // Scroll to top when clicking on the Home link
      document.querySelector('a[href="#container-hero"]').addEventListener('click', function(e) {

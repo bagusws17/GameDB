@@ -25,29 +25,29 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
     </head>
     <body>
         <div class="container-chart">
-            <canvas id="myChart" width="100" height="100"></canvas>
+            <canvas id="myChart2" width="100" height="100"></canvas>
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(function () {
-                    var ctx = document.getElementById("myChart");
+                    var ctx = document.getElementById("myChart2");
                     var myChart = new Chart(ctx, {
-                        type: 'doughnut',
+                        type: 'pie',
                         data: {
                             labels: [<?php foreach ($genre_data as $g) { echo '"' . $g['genre'] . '",'; } ?>],
                             datasets: [{
                                 data: [<?php foreach ($genre_data as $g) { echo '"' . $g['game_count'] . '",'; } ?>],
                                 backgroundColor: [
-                                    'rgba(37, 150, 190, 1)',
+                                    'rgba(176, 64, 64, 1)',
                                     'rgba(255, 159, 64, 1)',
-                                    'rgba(255, 205, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(52, 152, 219, 1)',
+                                    'rgba(255, 236, 0, 1)',
                                 ],
                                 borderColor: [
-                                    'rgba(37, 150, 190, 1)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgba(255, 205, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(176, 64, 64, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(52, 152, 219, 1)',
+                                    'rgba(255, 236, 0, 1)',
                                 ],
                                 borderWidth: 1
                             }]

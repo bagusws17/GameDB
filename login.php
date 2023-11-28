@@ -65,8 +65,7 @@ if (isset($_POST['login'])) {
                 <div class="text-input">
                     <label for="username">Username</label>
                     <input type="text" name="username" id="username" placeholder="Input username" required>
-                    <p id="username-error" style="color: red; display: none;">Username must not contain symbols or
-                        spaces</p>
+                    <p id="username-error" style="color: red; display: none;">Username must not contain symbols or spaces</p>
                 </div>
                 <div class="text-input" id="password-container">
                     <label for="password">Password</label>

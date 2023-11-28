@@ -22,6 +22,15 @@ if (isset($_GET['reset-search'])) {
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
+
+// Fetch game statistics by genre
+$genre_data_result = mysqli_query($conn, "SELECT genre, COUNT(id_app) AS game_count FROM app_detail GROUP BY genre ORDER BY game_count DESC");
+
+// Fetch data into an array
+$genre_data = array();
+while ($row = mysqli_fetch_assoc($genre_data_result)) {
+    $genre_data[] = $row;
+}
 ?>
 
 <!DOCTYPE html>
@@ -141,6 +150,9 @@ if (isset($_GET['reset-search'])) {
                 echo "</form>";
             } else {
                 echo "<p>No data available</p>";
+                echo "<form action='" . $_SERVER['PHP_SELF'] . "' method='GET'>";
+                echo "<button type='submit' name='reset-search' style='margin-top: 25px; background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;' name='submit-search'>Reset Search</button>";
+                echo "</form>";
             }
         }
         ?>
@@ -177,8 +189,15 @@ if (isset($_GET['reset-search'])) {
                 ?>
             </tbody>
         </table>
+    </div>
+    <div class="container-for-chart" style="display: flex; flex-direction: row; justify-content: space-around;">
         <div class="container-chart" id="container-chart">
+            <h1 style="display: flex; justify-content: space-around; align-items: center; font-weight: bold; font-size: 18px; text-align: center;color: #A2FACF;">Platform</h1>
             <canvas id="myChart" width="500" height="500"></canvas>
+        </div>
+        <div class="container-chart">
+            <h1 style="display: flex; justify-content: space-around; align-items: center; font-weight: bold; font-size: 18px; text-align: center;color: #A2FACF;">Genre</h1>
+            <canvas id="myChart2" width="500" height="500"></canvas>
         </div>
     </div>
     <footer>
@@ -211,6 +230,34 @@ if (isset($_GET['reset-search'])) {
             });
         }, 1000);
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+                setTimeout(function () {
+                    var ctx = document.getElementById("myChart2");
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [<?php foreach ($genre_data as $g) { echo '"' . $g['genre'] . '",'; } ?>],
+                            datasets: [{
+                                data: [<?php foreach ($genre_data as $g) { echo '"' . $g['game_count'] . '",'; } ?>],
+                                backgroundColor: [
+                                    'rgba(176, 64, 64, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(52, 152, 219, 1)',
+                                    'rgba(255, 236, 0, 1)',
+                                ],
+                                borderColor: [
+                                    'rgba(176, 64, 64, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(52, 152, 219, 1)',
+                                    'rgba(255, 236, 0, 1)',
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                    });
+                }, 1000);
+            });
 
     // Scroll to top when clicking on the Home link
     document.querySelector('a[href="#container-hero"]').addEventListener('click', function(e) {

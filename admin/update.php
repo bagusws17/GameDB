@@ -30,7 +30,7 @@ if (!isset($_SESSION['id'])) {
     if($query){
         ?>
         <script>
-            alert('Data berhasil Diubah!');
+            alert('Data Successfully Updated!');
             document.location='panel.php';
         </script>
         <?php

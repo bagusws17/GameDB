@@ -7,6 +7,53 @@ body {
     background-color: #181c24;
     margin: 0;
 }
+
+.container-hero {
+    position: relative;
+}
+
+.container-chart {
+    width: 100%;
+    margin: 15px auto;
+}
+
+#bg-hero {
+    width: 100%;
+    height: auto;
+}
+  
+.span-hero {
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    font-weight: 600;
+    font-family: 'Anton', sans-serif;
+    font-family: 'Nova Square', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-size: 60px;
+    padding-left: 850px;
+    margin-bottom: 700px;
+    color: #ffffff;
+    text-align: left;
+    z-index: 1;
+    letter-spacing: 2px;
+    height: auto;
+}
+
+.span-hero .blue{
+    color: #3498db; /* Warna biru */
+}
+
+.span-hero .blue-underline {
+    text-decoration: underline;
+    text-decoration-color: #3498db; /* Warna biru */
+}
+
+.hero-content {
+    position: relative;
+}
   
 nav {
     width: 100%;
@@ -49,6 +96,11 @@ nav li {
     padding-right: 10px;
 }
 
+nav li.button:hover {
+    margin-right: 20px;
+    padding-right: 10px;
+}
+
 nav a {
     text-decoration: none;
     color: #fff;
@@ -56,6 +108,14 @@ nav a {
 
 nav a:hover {
     color: #3498db;
+}
+
+main {
+    max-width: auto;
+    text-align: left;
+    color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 .container-content {
@@ -76,11 +136,11 @@ nav a:hover {
     font-size: 36px;
     line-height: 39.60px;
     word-wrap: break-word;
-    color: #3498db; /* Set color for the subtitle */
+    color: #A2FACF; /* Set color for the subtitle */
 }
 
 .blue-text {
-    color: #3498db; /* Set color for the white text */
+    color: #3498db; /* Set color for the blue text */
 }
 
 .white-text {
@@ -113,6 +173,7 @@ table {
     margin-top: 20px;
     border-radius: 10px; 
     overflow: hidden; /* Memastikan agar border-radius diterapkan dengan benar */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
 }
 
 th, td {
@@ -124,6 +185,16 @@ th, td {
 th {
     background-color: #1f232e;
     border: none;
+    color: #A2FACF; /* Set color for table header text */
+}
+
+td {
+    color: #fff; /* Set color for table cell text */
+}
+
+tr:hover {
+    background-color: #3498db; /* Set background color for hovered rows */
+    cursor: pointer;
 }
 
 footer {
