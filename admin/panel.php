@@ -24,6 +24,13 @@ function install($installs)
     return $formattedinstalls;
 }
 
+function rating($rating)
+{
+    $formattedrating = number_format($rating / 10, 1);
+    return $formattedrating;
+}
+
+
 // Fetch platform data
 $platform_name = mysqli_query($conn, "SELECT platform_name, id_platform FROM platform ORDER BY id_platform ASC");
 $platform = mysqli_query($conn, "SELECT platform_name, COUNT(app_detail.id_app) AS app_count FROM platform LEFT JOIN app_platform ON platform.id_platform = app_platform.id_platform LEFT JOIN app_detail ON app_platform.id_app = app_detail.id_app GROUP BY platform.platform_name, platform.id_platform ORDER BY platform.id_platform ASC;");
@@ -90,7 +97,7 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                 <li><a href="insertApp.php">Add Game</a></li>
                 <li><a href="insertConn.php">Platform</a></li>
                 <li><a href="deleteConn.php">Delete Platform</a></li>
-                <li><a href="#">Stats</a></li>
+                <li><a href="#container-chart">Stats</a></li>
                 <li><a href="https://sea.ign.com/" target="_blank">News</a></li>
                 <li><a href="../logout.php">Log Out</a></li>
             </ul>
@@ -141,6 +148,7 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                 echo '<th>Rating</th>';
                 echo '<th>Installs</th>';
                 echo '<th>Price</th>';
+                echo '<th>Action</th>';
                 echo '</tr>';
                 echo '</thead>';
                 echo '<tbody>';
@@ -149,9 +157,12 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                     echo "<tr>";
                     echo "<td>" . $row['app_name'] . "</td>";
                     echo "<td>" . $row['genre'] . "</td>";
-                    echo "<td>" . $row['rating'] . "</td>";
+                    echo "<td>" . rating($row['rating']) . "</td>";
                     echo "<td>" . install($row['installs']) . "+" . "</td>";
                     echo "<td>" . price($row['price']) . "</td>";
+                    echo "<td> <a href='update.php?id=$row[id_app] . 'style='color: #FFFF00; text-decoration:none;'>Edit</a>
+                    <a href='deleteAll.php?del=$row[id_app] . 'style='color: red; text-decoration:none;'>Delete</a></td>
+                    </tr>";
                     echo "</tr>";
                 }
 
@@ -163,7 +174,10 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                 echo "<button type='submit' name='reset-search' style='margin-top: 25px; background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;' name='submit-search'>Reset Search</button>";
                 echo "</form>";
             } else {
-                echo "<p>No data available</p>";
+                echo "<p style='color: #3498db;'>No data available</p>";
+                echo "<form action='" . $_SERVER['PHP_SELF'] . "' method='GET'>";
+                echo "<button type='submit' name='reset-search' style='margin-top: 25px; background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;' name='submit-search'>Reset Search</button>";
+                echo "</form>";
             }
         }
         ?>
@@ -190,7 +204,7 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                         echo "<tr>";
                         echo "<td>" . $row['app_name'] . "</td>";
                         echo "<td>" . $row['genre'] . "</td>";
-                        echo "<td>" . $row['rating'] . "</td>";
+                        echo "<td>" . rating($row['rating']) . "</td>";
                         echo "<td>" . install($row['installs']) . "+" . "</td>";
                         echo "<td>" . price($row['price']) . "</td>";
                         echo "<td> <a href='update.php?id=$row[id_app] . 'style='color: #FFFF00; text-decoration:none;'>Edit</a>
@@ -272,6 +286,11 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                     });
                 }, 1000);
             });
+
+    document.querySelector('a[href="#container-chart"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#container-chart').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
 
 </script>
 

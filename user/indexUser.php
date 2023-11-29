@@ -28,6 +28,12 @@ function install($installs)
     return $formattedinstalls;
 }
 
+function rating($rating)
+{
+    $formattedrating = number_format($rating / 10, 1);
+    return $formattedrating;
+}
+
 if (isset($_GET['reset-search'])) {
     // Redirect to the same page without any search parameters
     header("Location: " . $_SERVER['PHP_SELF']);
@@ -159,7 +165,7 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                     echo "<tr>";
                     echo "<td>" . $row['app_name'] . "</td>";
                     echo "<td>" . $row['genre'] . "</td>";
-                    echo "<td>" . $row['rating'] . "</td>";
+                    echo "<td>" . rating($row['rating']) . "</td>";
                     echo "<td>" . install($row['installs']) . "+" . "</td>";
                     echo "<td>" . price($row['price']) . "</td>";
                     echo "<td><a href='addToFavorites.php?id_app=" . $row['id_app'] . "' style='color: #3498db; text-decoration:none;'>Add to Favorites</a></td>";
@@ -205,7 +211,7 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                             echo "<tr>";
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
-                            echo "<td>" . $row['rating'] . "</td>";
+                            echo "<td>" . rating($row['rating']) . "</td>";
                             echo "<td>" . install($row['installs']) . "+" . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
                             echo "<td><a href='addToFavorites.php?id_app=" . $row['id_app'] . "' style='padding: 5px; color: #3498db; text-decoration:none; ;'>Add to Favorites</a></td>";

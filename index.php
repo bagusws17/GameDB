@@ -23,6 +23,12 @@ if (isset($_GET['reset-search'])) {
     exit();
 }
 
+function rating($rating)
+{
+    $formattedrating = number_format($rating / 10, 1);
+    return $formattedrating;
+}
+
 // Fetch game statistics by genre
 $genre_data_result = mysqli_query($conn, "SELECT genre, COUNT(id_app) AS game_count FROM app_detail GROUP BY genre ORDER BY game_count DESC");
 
@@ -135,7 +141,7 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                     echo "<tr>";
                     echo "<td>" . $row['app_name'] . "</td>";
                     echo "<td>" . $row['genre'] . "</td>";
-                    echo "<td>" . $row['rating'] . "</td>";
+                    echo "<td>" . rating($row['rating']) . "</td>";
                     echo "<td>" . install($row['installs']) . "+" . "</td>";
                     echo "<td>" . price($row['price']) . "</td>";
                     echo "</tr>";
@@ -178,7 +184,7 @@ while ($row = mysqli_fetch_assoc($genre_data_result)) {
                             echo "<tr>";
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
-                            echo "<td>" . $row['rating'] . "</td>";
+                            echo "<td>" . rating($row['rating']) . "</td>";
                             echo "<td>" . install($row['installs']) . "+" . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
                             echo "</tr>";

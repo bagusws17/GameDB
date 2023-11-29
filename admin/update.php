@@ -22,12 +22,19 @@ if (!isset($_SESSION['id'])) {
     $app_name = $_POST['app_name'];
     $genre = $_POST['genre'];
     $rating = $_POST['rating'];
+    $rating_con = str_replace(",",".",$rating);
     $installs = $_POST['installs'];
     $price = $_POST['price'];
 
-    $update = "update app_detail set id_app='$id', app_name='$app_name', genre='$genre', rating='$rating', installs='$installs', price='$price' where id_app='$idupdate'";
-    $query = mysqli_query($conn,$update);
-    if($query){
+    // Prepare the update statement
+    $update = "UPDATE app_detail SET app_name=?, genre=?, rating=?, installs=?, price=? WHERE id_app=?";
+    $stmt = $conn->prepare($update);
+
+    // Bind parameters and execute the statement
+    $stmt->bind_param("sssiii", $app_name, $genre, $rating_con, $installs, $price, $idupdate);
+    $stmt->execute();
+
+    if($stmt){
         ?>
         <script>
             alert('Data Successfully Updated!');
@@ -37,8 +44,7 @@ if (!isset($_SESSION['id'])) {
     }
 }
 
-if($hasil['id_app']!=""){
-    ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +78,7 @@ if($hasil['id_app']!=""){
         <table>
             <tr>
               <td>Id Game</td>
-              <td><input type="text" name="id_app" maxlength="5" required value='<?php echo $hasil['id_app']; ?>'></td>  
+              <td><input type="number" name="id_app" maxlength="5" required value='<?php echo $hasil['id_app']; ?>' readonly></td>  
             </tr>
             <tr>
               <td>App Name</td>
@@ -91,7 +97,9 @@ if($hasil['id_app']!=""){
             </tr>
             <tr>
               <td>Rating</td>
-              <td><input type="number" name="rating" required value='<?php echo $hasil['rating']; ?>'></td>  
+              <td><input type="number" name="rating" required value='<?php echo $hasil['rating']; ?>'>
+              <span style="color: gray; font-size: 12px;"><br>Insert number of tens (e.g., 45), it will be converted. Max: 50</span> 
+              </td>
             </tr>
             <tr>
               <td>Installs</td>
@@ -104,7 +112,7 @@ if($hasil['id_app']!=""){
             <tr>
                 <td></td>
                 <td>
-                    <input type="submit" name='update' value="Edit Data Game">
+                    <input type="submit" name='update' style="background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" value="Edit Data Game">
                 </td>
             </tr>
         </table>
@@ -116,6 +124,3 @@ if($hasil['id_app']!=""){
     </footer>
 </body>
 </html>
-<?php
-}
-?>

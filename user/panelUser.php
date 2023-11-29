@@ -23,6 +23,12 @@ function install($installs)
     return $formattedinstalls;
 }
 
+function rating($rating)
+{
+    $formattedrating = number_format($rating / 10, 1);
+    return $formattedrating;
+}
+
 if (isset($_GET['reset-search'])) {
     // Redirect to the same page without any search parameters
     header("Location: " . $_SERVER['PHP_SELF']);
@@ -125,7 +131,7 @@ if (isset($_GET['reset-search'])) {
                     echo "<tr>";
                     echo "<td>" . $row['app_name'] . "</td>";
                     echo "<td>" . $row['genre'] . "</td>";
-                    echo "<td>" . $row['rating'] . "</td>";
+                    echo "<td>" . rating($row['rating']) . "</td>";
                     echo "<td>" . install($row['installs']) . "+" . "</td>";
                     echo "<td>" . price($row['price']) . "</td>";
                     echo "<td><a href='deleteFavorite.php?id_app=" . $row['id_app'] . "' style='color: red; text-decoration:none;'>Unfavorite</a></td>";
@@ -172,7 +178,7 @@ if (isset($_GET['reset-search'])) {
                             echo "<tr>";
                             echo "<td>" . $row['app_name'] . "</td>";
                             echo "<td>" . $row['genre'] . "</td>";
-                            echo "<td>" . $row['rating'] . "</td>";
+                            echo "<td>" . rating($row['rating']) . "</td>";
                             echo "<td>" . install($row['installs']) . "+" . "</td>";
                             echo "<td>" . price($row['price']) . "</td>";
                             echo "<td><a href='deleteFavorite.php?id_app=" . $row['id_app'] . "' style='color: red; text-decoration:none;'>Unfavorite</a></td>";
